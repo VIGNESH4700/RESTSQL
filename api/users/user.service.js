@@ -2,21 +2,22 @@ const pool = require("../../config/database");
 
 module.exports = {
   create: (data, callBack) => {
+    var datetime = new Date();
     pool.query(
       `
-      insert into User values('${data.User_Name}','${data.First_Name}','${data.Middle_Name}','${data.Last_Name}','${data.Gender}','${data.Date_Of_Birth}','${data.Created_Date}');
-       `,
+      insert into User values('${data.User_Name}','${data.First_Name}','${data.Middle_Name}','${data.Last_Name}','${data.Gender}','${data.Date_Of_Birth}','${datetime}');
+      insert into User_Password(User_User_Name,User_Password,Password_Question,Password_Answer,Created_Date) values('${data.User_Name}','${data.User_Password}','${data.Password_Question}','${data.Password_Answer}','${datetime}')
+      `,
       [],
       (error, results, fields) => {
         if (error) {
           callBack(error);
         }else{
-         // pool.query(`insert into User_Password(User_User_Name,User_Password,Password_Question,Password_Answer,Created_Date) values('${data.User_Name}','${data.User_Password}','${data.Password_Question}','${data.Password_Answer}','${data.Created_Date}')`,[])
-          return callBack(null, results);
+          return callBack(null, results); 
         }
       }
     );
-  },
+  }, 
   getUserByUserEmail: (username, callBack) => {
     pool.query(
       `select * from User_Password where User_User_Name = ?`,

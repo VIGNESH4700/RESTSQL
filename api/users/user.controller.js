@@ -12,8 +12,8 @@ const { sign } = require("jsonwebtoken");
 module.exports = {
   createUser: (req, res) => {
     const body = req.body;
-    // const salt = genSaltSync(10);
-    // body.password = hashSync(body.password, salt);
+    const salt = genSaltSync(10);
+    body.User_Password = hashSync(body.User_Password, salt);
     create(body, (err, results) => {
       if (err) {
         console.log(err);
@@ -40,9 +40,7 @@ module.exports = {
           data: "Invalid email or password"
         });
       }
-      const salt = genSaltSync(10);
-      const password = hashSync(body.User_Password, salt);
-      const result = compareSync(body.User_Password, password);
+      const result = compareSync(body.User_Password, results.User_Password);
       if (result) {
         results.password = undefined;
         const jsontoken = sign({ result: results }, "qwe1234", {
