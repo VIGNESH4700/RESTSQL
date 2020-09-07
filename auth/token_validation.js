@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 module.exports = {
-  checkToken: (req, res, next) => {
+  checkToken: (req, res, callback) => {
     let token = req.get("authorization");
     if (token) {
       // Remove Bearer from string
@@ -13,7 +13,7 @@ module.exports = {
           });
         } else {
           req.decoded = decoded;
-          next();
+          callback();
         }
       });
     } else {

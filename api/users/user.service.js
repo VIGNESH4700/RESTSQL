@@ -30,21 +30,21 @@ module.exports = {
       }
     );
   },
-  getUserByUserId: (id, callBack) => {
+  getUserByUserId: (username, callBack) => {
     pool.query(
-      `select id,firstName,lastName,gender,email,number from registration where id = ?`,
-      [id],
+      `select * from User where User_Name = ?`,
+      [username],
       (error, results, fields) => {
         if (error) {
           callBack(error);
         }
         return callBack(null, results[0]);
-      }
+      }  
     );
   },
   getUsers: callBack => {
     pool.query(
-      `select * from User_Password`,
+      `select * from User`,
       [],
       (error, results, fields) => {
         if (error) {
@@ -76,8 +76,11 @@ module.exports = {
   },
   deleteUser: (data, callBack) => {
     pool.query(
-      `delete from registration where id = ?`,
-      [data.id],
+      `
+      delete from User where User_Name = ${data.User_Name}
+      delete from User_Password where User_User_Name = ${data.User_Name}
+      `,
+      [],
       (error, results, fields) => {
         if (error) {
           callBack(error);

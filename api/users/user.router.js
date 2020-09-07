@@ -7,8 +7,8 @@ const {
   getUsers,
   updateUsers,
   deleteUser
-} = require("./user.controller");
-router.get("/", getUsers);
+} = require("./user.controller"); 
+router.get("/", checkToken, getUsers);
 router.post("/", createUser);
 router.get("/:id", checkToken, getUserByUserId);
 router.post("/login", login);
