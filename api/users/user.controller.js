@@ -94,7 +94,7 @@ module.exports = {
   updateUsers: (req, res) => {
     const body = req.body;
     const salt = genSaltSync(10);
-    body.password = hashSync(body.password, salt);
+    body.User_Password = hashSync(body.User_Password, salt);
     updateUser(body, (err, results) => {
       if (err) {
         console.log(err);
@@ -113,7 +113,7 @@ module.exports = {
         console.log(err);
         return;
       }
-      if (!results) {
+      if (results == 0) {
         return res.json({
           success: 0,
           message: "Record Not Found"
